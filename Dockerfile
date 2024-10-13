@@ -4,6 +4,8 @@ FROM node:18-alpine
 # Set the working directory in the container
 WORKDIR /app
 
+RUN apk add --no-cache ffmpeg
+
 COPY . .
 # Install dependencies
 RUN npm install 
