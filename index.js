@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 3000;
     try {
       // Get the audio stream from YouTube Music
       const stream = await yt.download(songId, {
-        type: "audio",
+        type: "video+audio",
         quality: "best",
         format: "mp4",
         client: "YTMUSIC",
