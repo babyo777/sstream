@@ -1,7 +1,7 @@
 import express from "express";
 import { Innertube, UniversalCache, Utils } from "youtubei.js";
 import { Readable } from "stream";
-import ffmpeg from "fluent-ffmpeg";
+import serverless from "serverless-http";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -76,3 +76,5 @@ const PORT = process.env.PORT || 3000;
     console.log(`Server is running on http://localhost:${PORT}`);
   });
 })();
+
+export const handler = serverless(app);
