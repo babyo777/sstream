@@ -43,7 +43,7 @@ const PORT = process.env.PORT || 3000;
       const buffer = Buffer.concat(chunks);
 
       // Set headers for real-time streaming
-      res.writeHead(200, {
+      res.writeHead(206, {
         "Content-Type": "audio/mpeg", // Streaming as MP3
         "Cache-Control": "no-cache",
         "Content-Disposition": 'inline; filename="stream.mp3"',
