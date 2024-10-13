@@ -1,7 +1,6 @@
 import express from "express";
-import { Innertube, UniversalCache, Utils } from "youtubei.js";
+import { Innertube, UniversalCache } from "youtubei.js";
 import { Readable } from "stream";
-import ffmpeg from "fluent-ffmpeg";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -63,20 +62,7 @@ const PORT = process.env.PORT || 3000;
 
       // Use fluent-ffmpeg to convert the audio stream to MP3 in real-time
       // Use fluent-ffmpeg to convert and stream the audio
-      ffmpeg(audioStream)
-        .inputFormat("mp4") // Specify the input format
-        .audioCodec("libmp3lame") // Set audio codec to mp3
-        .format("mp3") // Set output format to mp3
-        .on("error", (err) => {
-          console.error(`Error with ffmpeg: ${err.message}`);
-          if (!res.headersSent) {
-            res.status(500).send("Error processing audio.");
-          }
-        })
-        .on("end", () => {
-          console.info(`Finished streaming song: ${songId}`);
-        })
-        .pipe(res, { end: true }); // Pipe the converted MP3 stream to the response
+      audioStream.pipe(res);
     } catch (error) {
       console.error(`Error streaming song: ${songId}`, error);
       if (!res.headersSent) {
