@@ -61,23 +61,22 @@ const PORT = process.env.PORT || 3000;
 
       console.info(`Streaming song with ID: ${songId} after buffering`);
 
-      audioStream.pipe(res);
       // Use fluent-ffmpeg to convert the audio stream to MP3 in real-time
-      // // Use fluent-ffmpeg to convert and stream the audio
-      // ffmpeg(audioStream)
-      //   .inputFormat("mp4") // Specify the input format
-      //   .audioCodec("libmp3lame") // Set audio codec to mp3
-      //   .format("mp3") // Set output format to mp3
-      //   .on("error", (err) => {
-      //     console.error(`Error with ffmpeg: ${err.message}`);
-      //     if (!res.headersSent) {
-      //       res.status(500).send("Error processing audio.");
-      //     }
-      //   })
-      //   .on("end", () => {
-      //     console.info(`Finished streaming song: ${songId}`);
-      //   })
-      //   .pipe(res, { end: true }); // Pipe the converted MP3 stream to the response
+      // Use fluent-ffmpeg to convert and stream the audio
+      ffmpeg(audioStream)
+        .inputFormat("mp4") // Specify the input format
+        .audioCodec("libmp3lame") // Set audio codec to mp3
+        .format("mp3") // Set output format to mp3
+        .on("error", (err) => {
+          console.error(`Error with ffmpeg: ${err.message}`);
+          if (!res.headersSent) {
+            res.status(500).send("Error processing audio.");
+          }
+        })
+        .on("end", () => {
+          console.info(`Finished streaming song: ${songId}`);
+        })
+        .pipe(res, { end: true }); // Pipe the converted MP3 stream to the response
     } catch (error) {
       console.error(`Error streaming song: ${songId}`, error);
       if (!res.headersSent) {
