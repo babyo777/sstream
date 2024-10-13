@@ -7,11 +7,9 @@ WORKDIR /app
 RUN apk add --no-cache ffmpeg
 
 COPY . .
+
 # Install dependencies
 RUN npm install 
-
-# Copy the rest of the application code
-
 
 # Expose the port the app runs on
 EXPOSE 3000
