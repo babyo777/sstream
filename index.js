@@ -1,8 +1,11 @@
 import express from "express";
 import { Innertube, UniversalCache } from "youtubei.js";
 import { Readable } from "stream";
+import { decrypt } from "tanmayo7lock";
+import dotenv from "dotenv";
+dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 
 (async () => {
   const yt = await Innertube.create({
@@ -15,9 +18,9 @@ const PORT = process.env.PORT || 3000;
   // Route to stream the song based on its ID
 
   app.get("/stream/:songId", async (req, res) => {
-    const songId = req.params.songId;
-
+    let songId = req.params.songId;
     try {
+      songId = decrypt(req.params.songId);
       // Get the audio stream from YouTube Music
       const stream = await yt.download(songId, {
         type: "video+audio",
@@ -66,7 +69,7 @@ const PORT = process.env.PORT || 3000;
     } catch (error) {
       console.error(`Error streaming song: ${songId}`, error);
       if (!res.headersSent) {
-        res.status(500).send("Error streaming the song.");
+        res.status(500).send(error?.message);
       }
     }
   });
