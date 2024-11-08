@@ -6,6 +6,13 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8000;
+import useCors from "cors";
+app.use(
+  useCors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 (async () => {
   const yt = await Innertube.create({
