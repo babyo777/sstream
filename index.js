@@ -21,8 +21,11 @@ const PORT = process.env.PORT || 8000;
     let songId = req.params.songId;
     try {
       songId = decrypt(req.params.songId);
+
       // Get the audio stream from YouTube Music
-      const stream = await yt.download(songId, {
+      const stream = await (
+        await yt.music.getInfo(songId)
+      ).download({
         type: "video+audio",
         quality: "bestefficiency",
         format: "mp4",
