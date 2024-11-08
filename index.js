@@ -46,7 +46,7 @@ const PORT = process.env.PORT || 8000;
 
       // Set headers for real-time streaming
       res.writeHead(200, {
-        "Content-Type": "audio/mpeg", // Streaming as MP3
+        "Content-Type": "video/mp4", // Streaming as MP3
         "Cache-Control": "no-cache",
         "Content-Disposition": 'inline; filename="stream.mp3"',
         "Accept-Ranges": "bytes",
