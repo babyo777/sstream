@@ -48,7 +48,7 @@ const PORT = process.env.PORT || 8000;
       res.writeHead(200, {
         "Content-Type": "video/mp4", // Streaming as MP3
         "Cache-Control": "no-cache",
-        "Content-Disposition": 'inline; filename="stream.mp3"',
+        "Content-Disposition": 'inline; filename="stream.mp4"',
         "Accept-Ranges": "bytes",
         "Content-Length": buffer.length,
       });
