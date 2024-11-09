@@ -105,7 +105,7 @@ app.use(
               },
             ],
           }))
-          .slice(0, 20) || []
+          .slice(1, 20) || []
       );
     } catch (error) {
       console.error(`Error streaming song: ${songId}`, error);
