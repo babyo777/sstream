@@ -26,7 +26,7 @@ app.use(
     let songId = req.params.songId;
     try {
       songId = decrypt(req.params.songId);
-      const stream = await yt.download({
+      const stream = await yt.music.download({
         type: "video+audio",
         quality: "best",
         format: "mp4",
