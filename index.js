@@ -25,7 +25,7 @@ app.use(
   app.get("/stream/:songId", async (req, res) => {
     let songId = req.params.songId;
     try {
-      songId = songId.length >= 11 ? songId : decrypt(req.params.songId);
+      songId = songId.length == 11 ? songId : decrypt(req.params.songId);
       const stream = await yt.download(songId, {
         type: "video+audio",
         quality: "best",
