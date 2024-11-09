@@ -2,6 +2,7 @@ import express from "express";
 import { Innertube, UniversalCache } from "youtubei.js";
 import { Readable } from "stream";
 import { decrypt, encrypt } from "tanmayo7lock";
+import { VibeCache } from "./cache/cache.js";
 import dotenv from "dotenv";
 dotenv.config();
 const app = express();
@@ -74,37 +75,40 @@ app.use(
     let songId = req.params.songId;
     try {
       songId = decrypt(req.params.songId);
+      if (VibeCache.has(songId)) {
+        return res.json(VibeCache.get(songId));
+      }
       const d = await yt.music.getUpNext(songId);
-      res.json(
-        d.contents
-          .map((s) => ({
-            id: s.video_id,
-            name: s.title,
-            artists: {
-              primary: [
-                {
-                  name: s.artists[0].name,
-                },
-              ],
+      const playload = d.contents
+        .map((s) => ({
+          id: s.video_id,
+          name: s.title,
+          artists: {
+            primary: [
+              {
+                name: s.artists[0].name,
+              },
+            ],
+          },
+          image: [
+            {
+              quality: "500x500",
+              url: `https://wsrv.nl/?url=${s.thumbnail[0].url
+                .replace(/w\\d+-h\\d+/, "w500-h500")
+                .replace("w120-h120", "w500-h500")}`,
             },
-            image: [
-              {
-                quality: "500x500",
-                url: `https://wsrv.nl/?url=${s.thumbnail[0].url
-                  .replace(/w\\d+-h\\d+/, "w500-h500")
-                  .replace("w120-h120", "w500-h500")}`,
-              },
-            ],
-            source: "youtube",
-            downloadUrl: [
-              {
-                quality: "320kbps",
-                url: `${encrypt(s.video_id)}`,
-              },
-            ],
-          }))
-          .slice(1, 20) || []
-      );
+          ],
+          source: "youtube",
+          downloadUrl: [
+            {
+              quality: "320kbps",
+              url: `${encrypt(s.video_id)}`,
+            },
+          ],
+        }))
+        .slice(1, 20);
+      VibeCache.set(songId, playload);
+      res.json(playload || []);
     } catch (error) {
       console.error(`Error streaming song: ${songId}`, error);
       if (!res.headersSent) {
