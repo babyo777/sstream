@@ -28,7 +28,7 @@ app.use(
       songId = songId.length == 11 ? songId : decrypt(req.params.songId);
       const stream = await yt.download(songId, {
         type: "video+audio",
-        quality: "best",
+        quality: "bestefficiency",
         format: "mp4",
         client: "YTMUSIC",
       });
