@@ -46,9 +46,9 @@ app.use(
       const buffer = Buffer.concat(chunks);
 
       res.writeHead(200, {
-        "Content-Type": "audio/mpeg",
+        "Content-Type": "video/mp4",
         "Cache-Control": "no-cache",
-        "Content-Disposition": 'inline; filename="stream.mp3"',
+        "Content-Disposition": 'inline; filename="stream.mp4"',
         "Accept-Ranges": "bytes",
         "Content-Length": buffer.length,
       });
