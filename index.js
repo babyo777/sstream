@@ -18,18 +18,22 @@ app.use(
 (async () => {
   const yt = await Innertube.create({
     cache: new UniversalCache(false),
+    generate_session_locally: true,
     cookie:
-      "PREF=repeat=NONE;_gcl_au=1.1.1502659297.1728791448;VISITOR_INFO1_LIVE=NvNH48Rg2dE;VISITOR_PRIVACY_METADATA=CgJJThIEGgAgJA%3D%3D;SID=g.a000pQjgpIAdhHy_0dGSfDWxKjvrLwzqoM5Uawu72JJedcBUyo_5niw0mGJMnwo-4Ulrq1pG7wACgYKAbsSARESFQHGX2MiR29K2ot14z4vO7srGe3PeBoVAUF8yKpJ90VV7hWAGXYgwQVg4kCs0076;__Secure-1PSIDTS=sidts-CjEBQlrA-LTU0R2M5JOF6m6Se-a5Yvm4x_US09hp_XX80xVr7HaLm1KEW8NU7z3XFdGEEAA;__Secure-3PSIDTS=sidts-CjEBQlrA-LTU0R2M5JOF6m6Se-a5Yvm4x_US09hp_XX80xVr7HaLm1KEW8NU7z3XFdGEEAA;__Secure-1PSID=g.a000pQjgpIAdhHy_0dGSfDWxKjvrLwzqoM5Uawu72JJedcBUyo_5A2i8D33_rw5Onny5aoSzWgACgYKAeASARESFQHGX2MiqQ4Difx2cCQHaJXQTyQEWBoVAUF8yKpZ-IlJD19ZeYd-V1L_mlmF0076;__Secure-3PSID=g.a000pQjgpIAdhHy_0dGSfDWxKjvrLwzqoM5Uawu72JJedcBUyo_59gp3p4VBdS8DQGOGZscEAwACgYKAdwSARESFQHGX2Migt1B69WLlDH3Y3YB-ylnQBoVAUF8yKqfKW2PnTPgs8V7-QuNegJn0076;HSID=A3vZdGr5WdtBtLQ3L;SSID=AQd1F9p4HQ0RnRkbz;APISID=rSUhHKZtqUschgEw/ApQDuIP6JJP_zPETE;SAPISID=FHycINayOxipiMbp/AIbxev72Exj6U-BDH;__Secure-1PAPISID=FHycINayOxipiMbp/AIbxev72Exj6U-BDH;__Secure-3PAPISID=FHycINayOxipiMbp/AIbxev72Exj6U-BDH;LOGIN_INFO=AFmmF2swRgIhAJARrLLPIPpw7jqWlw7gbikZadDWsOGtDEExmBnAIF-TAiEA9ueAGX8WRNBgzCKvX1pjOk_7Sfkc-YTcHyYEidpPQbM:QUQ3MjNmdzZLWUJhMktkQmRlWXdFd0M2LS1yeGNBS3lvdEZhUGtDc3JWMC1PSlpsUS1tOG5JOUhxUnJGTlI2aUJva2NDT0xISWk3clhTY0hTYVdUeHIzdzdobjJkdzV3Si1RVVNZaWxwSG1IY2ZscURRMG9sdFRVdllKSHdjbmNzcjB1bzJLTm9KZWFwcXFKR19tZmdTVlRVMTZpWlI4bWdn;YSC=MOSR1U_kg4k;SIDCC=AKEyXzXcl2hTBJtaKTPRDkAxVD_OJ4jsJx3N0RnOWUVU_l3i_F_tuhQJkyPBgl6XBZ4W6BLMaw;__Secure-1PSIDCC=AKEyXzWWFcb1pf0DkhbchlkDu_OMrTBAUKsKmvpRrWCDH8jaPDqtrbVkjygg3RgTeoYQQgSQPA;__Secure-3PSIDCC=AKEyXzXScdOpyPtvGSyYd5q_nWdgI0m9HR09pabbSRo7EZDE1413aq8xFa-ejdzMdnnECnJy",
+      "_gcl_au=1.1.1502659297.1728791448;VISITOR_INFO1_LIVE=NvNH48Rg2dE;VISITOR_PRIVACY_METADATA=CgJJThIEGgAgJA%3D%3D;SID=g.a000pQjgpIAdhHy_0dGSfDWxKjvrLwzqoM5Uawu72JJedcBUyo_5niw0mGJMnwo-4Ulrq1pG7wACgYKAbsSARESFQHGX2MiR29K2ot14z4vO7srGe3PeBoVAUF8yKpJ90VV7hWAGXYgwQVg4kCs0076;__Secure-1PSIDTS=sidts-CjEBQlrA-LTU0R2M5JOF6m6Se-a5Yvm4x_US09hp_XX80xVr7HaLm1KEW8NU7z3XFdGEEAA;__Secure-3PSIDTS=sidts-CjEBQlrA-LTU0R2M5JOF6m6Se-a5Yvm4x_US09hp_XX80xVr7HaLm1KEW8NU7z3XFdGEEAA;__Secure-1PSID=g.a000pQjgpIAdhHy_0dGSfDWxKjvrLwzqoM5Uawu72JJedcBUyo_5A2i8D33_rw5Onny5aoSzWgACgYKAeASARESFQHGX2MiqQ4Difx2cCQHaJXQTyQEWBoVAUF8yKpZ-IlJD19ZeYd-V1L_mlmF0076;__Secure-3PSID=g.a000pQjgpIAdhHy_0dGSfDWxKjvrLwzqoM5Uawu72JJedcBUyo_59gp3p4VBdS8DQGOGZscEAwACgYKAdwSARESFQHGX2Migt1B69WLlDH3Y3YB-ylnQBoVAUF8yKqfKW2PnTPgs8V7-QuNegJn0076;HSID=A3vZdGr5WdtBtLQ3L;SSID=AQd1F9p4HQ0RnRkbz;APISID=rSUhHKZtqUschgEw/ApQDuIP6JJP_zPETE;SAPISID=FHycINayOxipiMbp/AIbxev72Exj6U-BDH;__Secure-1PAPISID=FHycINayOxipiMbp/AIbxev72Exj6U-BDH;__Secure-3PAPISID=FHycINayOxipiMbp/AIbxev72Exj6U-BDH;PREF=repeat=NONE&volume=0;LOGIN_INFO=AFmmF2swRAIgR7wXGG7WVm1REyUDo9r4uOHTCkpDZ1Zbqn_vbrBGTqYCIBnDTYcEiZyKNpF-irI2rD5KJRxGQUrb8rMl0TZUbl7Z:QUQ3MjNmdzFaVkVjNVBXOE90emc1VW82blFPcGl3U0h6Rko4Vl8xOWc5ampyUFdrb01Uc2F6elQxVlVQU0NpMmtfMVJxOGNjUmJRZFRyVmlfZXYtV1N3Z0daRmpBQjkwbjZGQ0hfNUlIcXkwTk1lNWdPaXgyS1dMeXAxQUx4clBwQlM4ZnlfUXZ0R1MyaUs0U3ItZ0dObWNPQ2JSdHAwMHpR;YSC=yi8-mJO5wYQ;SIDCC=AKEyXzUl3aHSou3s0nTVxd0l8mdN3iRMUPVCZxrEni-l7Ru6tuCRXU6F6BzdA1OzPtbTJR4Nemc;__Secure-1PSIDCC=AKEyXzUOymYr9Om2wrssAvJQ5s4eIT4vHzkKFU8fB8j52CK1NoCbdhQb7_1Jq9oTxOCHl2-YZzQ;__Secure-3PSIDCC=AKEyXzV4udKsVvrRjyYYLsTVTxgwkdYpmZ41-yODbH1kVSAoxRnqbC1vLMdzYZeERRcgjV-DUA",
   });
 
   app.get("/stream/:songId", async (req, res) => {
     let songId = req.params.songId;
+    const video = req.query.v;
+    const userAgent = req.headers["user-agent"];
+    const isIPhone = /iPhone/i.test(userAgent);
     try {
       songId = songId.length == 11 ? songId : decrypt(req.params.songId);
       const stream = await yt.download(songId, {
-        type: "video+audio",
+        type: video || isIPhone ? "video+audio" : "audio",
         quality: "bestefficiency",
-        format: "mp4",
+        format: "any",
         client: "YTMUSIC",
       });
 

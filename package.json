@@ -8,7 +8,7 @@
     "express": "^4.21.1",
     "node-cache": "^5.1.2",
     "tanmayo7lock": "^1.0.18",
-    "youtubei.js": "^10.5.0"
+    "youtubei.js": "^11.0.1"
   },
   "devDependencies": {
     "dotenv": "^16.4.5"
