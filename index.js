@@ -14,7 +14,6 @@ app.use(
     credentials: true,
   })
 );
-
 (async () => {
   const yt = await Innertube.create({
     cache: new UniversalCache(false),
