@@ -29,45 +29,20 @@ app.use(
     const isIPhone = /iPhone/i.test(userAgent);
     try {
       songId = songId.length == 11 ? songId : decrypt(req.params.songId);
-      const stream = await yt.download(songId, {
-        type: video || isIPhone ? "video+audio" : "audio",
-        quality: "bestefficiency",
-        format: "any",
-        client: "YTMUSIC",
-      });
 
-      console.info(`Loaded audio stream for song with ID: ${songId}`);
-
-      const chunks = [];
-      const reader = stream.getReader();
-
-      let done, value;
-      while ((({ done, value } = await reader.read()), !done)) {
-        chunks.push(value);
-      }
-
-      const buffer = Buffer.concat(chunks);
-
-      res.writeHead(200, {
-        "Content-Type": "video/mp4",
-        "Cache-Control": "no-cache",
-        "Content-Disposition": 'inline; filename="stream.mp4"',
-        "Accept-Ranges": "bytes",
-        "Content-Length": buffer.length,
-      });
-
-      const audioStream = new Readable({
-        read() {
-          this.push(buffer);
-          this.push(null);
-        },
-      });
-
-      console.info(`Streaming song with ID: ${songId} after buffering`);
-
-      audioStream.pipe(res);
+      await stream(yt, songId, video, isIPhone, res);
+      return;
     } catch (error) {
       console.error(`Error streaming song: ${songId}`, error);
+      if (isIPhone) {
+        try {
+          return await stream(yt, songId, false, false, res);
+        } catch (error) {
+          if (!res.headersSent) {
+            res.status(500).send(error?.message);
+          }
+        }
+      }
       if (!res.headersSent) {
         res.status(500).send(error?.message);
       }
@@ -123,3 +98,43 @@ app.use(
     console.log(`Server is running on http://localhost:${PORT}`);
   });
 })();
+
+async function stream(yt, songId, video, isIPhone, res) {
+  const stream = await yt.download(songId, {
+    type: video || isIPhone ? "video+audio" : "audio",
+    quality: "bestefficiency",
+    format: "any",
+    client: "YTMUSIC",
+  });
+
+  console.info(`Loaded audio stream for song with ID: ${songId}`);
+
+  const chunks = [];
+  const reader = stream.getReader();
+
+  let done, value;
+  while ((({ done, value } = await reader.read()), !done)) {
+    chunks.push(value);
+  }
+
+  const buffer = Buffer.concat(chunks);
+
+  res.writeHead(200, {
+    "Content-Type": "video/mp4",
+    "Cache-Control": "no-cache",
+    "Content-Disposition": 'inline; filename="stream.mp4"',
+    "Accept-Ranges": "bytes",
+    "Content-Length": buffer.length,
+  });
+
+  const audioStream = new Readable({
+    read() {
+      this.push(buffer);
+      this.push(null);
+    },
+  });
+
+  console.info(`Streaming song with ID: ${songId} after buffering`);
+
+  audioStream.pipe(res);
+}
