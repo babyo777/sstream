@@ -50,23 +50,26 @@ app.use(
   });
   app.get("/vibe/:songId", async (req, res) => {
     let songId = req.params.songId;
+
     try {
-      songId = decrypt(req.params.songId);
+      songId = songId.length == 11 ? songId : decrypt(req.params.songId);
       if (VibeCache.has(songId)) {
         return res.json(VibeCache.get(songId));
       }
       const d = await yt.music.getUpNext(songId);
+      console.log("req");
       const playload = d.contents
-        .map((s) => ({
+        .map((s, i) => ({
           id: s.video_id,
-          name: s.title,
+          name: s.title.text,
           artists: {
             primary: [
               {
-                name: s.artists[0].name,
+                name: s.artists[0]?.name || "Uknown",
               },
             ],
           },
+          suggestedOrder: i,
           image: [
             {
               quality: "500x500",
@@ -87,7 +90,7 @@ app.use(
       VibeCache.set(songId, playload);
       res.json(playload || []);
     } catch (error) {
-      console.error(`Error streaming song: ${songId}`, error);
+      console.error(`Error getting suggestion for song: ${songId}`, error);
       if (!res.headersSent) {
         res.status(500).send(error?.message);
       }

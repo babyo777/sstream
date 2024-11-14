@@ -1,5 +1,5 @@
 import NodeCache from "node-cache";
 
 export const VibeCache = new NodeCache({
-  stdTTL: 60,
+  stdTTL: 86400,
 });
