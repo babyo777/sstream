@@ -111,7 +111,7 @@ app.use(
 async function stream(yt, songId, video, isIPhone, res) {
   const stream = await yt.download(songId, {
     type: video || isIPhone ? "video+audio" : "audio",
-    quality: "bestefficiency",
+    quality: "best",
     format: "any",
     client: "YTMUSIC",
   });
@@ -128,7 +128,7 @@ async function stream(yt, songId, video, isIPhone, res) {
 
   const buffer = Buffer.concat(chunks);
 
-  res.writeHead(200, {
+  res.writeHead(206, {
     "Content-Type": "video/mp4",
     "Cache-Control": "no-cache",
     "Content-Disposition": 'inline; filename="stream.mp4"',
