@@ -128,7 +128,7 @@ async function stream(yt, songId, video, isIPhone, res) {
 
   const buffer = Buffer.concat(chunks);
 
-  res.writeHead(206, {
+  res.writeHead(200, {
     "Content-Type": "video/mp4",
     "Cache-Control": "no-cache",
     "Content-Disposition": 'inline; filename="stream.mp4"',
