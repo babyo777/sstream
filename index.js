@@ -69,6 +69,12 @@ app.use(
               },
             ],
           },
+          addedByUser: {
+            username: "@Vibe",
+            name: "Vibe",
+            imageUrl:
+              "https://lh3.googleusercontent.com/a/ACg8ocKRfJKmVUAzGWPJP-hY3sOBKOXRfG4Z3vKIQku_puUDrIoYaZw=s96-c",
+          },
           suggestedOrder: i,
           image: [
             {
