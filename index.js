@@ -15,6 +15,7 @@ app.use(
   })
 );
 const yt = await Innertube.create({
+  device_category: "desktop",
   cache: new UniversalCache(false),
   generate_session_locally: true,
   cookie:
