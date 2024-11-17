@@ -76,7 +76,11 @@ const yt = await Innertube.create({
               "https://lh3.googleusercontent.com/a/ACg8ocKRfJKmVUAzGWPJP-hY3sOBKOXRfG4Z3vKIQku_puUDrIoYaZw=s96-c",
           },
           suggestedOrder: i,
-          // video: true,
+          video: !s.thumbnail[0].url.includes(
+            "https://lh3.googleusercontent.com"
+          )
+            ? true
+            : false,
           image: [
             {
               quality: "500x500",
