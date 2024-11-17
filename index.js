@@ -69,7 +69,6 @@ const yt = await Innertube.create({
               },
             ],
           },
-          video: true,
           addedByUser: {
             username: "@Vibe",
             name: "Vibe",
