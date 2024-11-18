@@ -147,7 +147,7 @@ async function stream(yt, songId, video, isIPhone, res) {
     },
   });
 
-  console.info(`Streaming song with ID: ${songId} after buffering`);
+  console.info(`Streaming video with ID: ${songId} after buffering`);
 
   audioStream.pipe(res);
 }
