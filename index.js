@@ -135,6 +135,7 @@ async function stream(yt, songId, video, isIPhone, res) {
 
   res.writeHead(200, {
     "Content-Type": "video/mp4",
+    "Cache-Control": "no-cache",
     "Content-Disposition": 'inline; filename="stream.mp4"',
     "Accept-Ranges": "bytes",
     "Content-Length": buffer.length,
