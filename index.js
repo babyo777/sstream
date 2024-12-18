@@ -50,14 +50,13 @@ const yt = await Innertube.create({
   });
   app.get("/vibe/:songId", async (req, res) => {
     let songId = req.params.songId;
-
+    const all = req.query.all;
     try {
       songId = songId.length == 11 ? songId : decrypt(req.params.songId);
       if (VibeCache.has(songId)) {
         return res.json(VibeCache.get(songId));
       }
       const d = await yt.music.getUpNext(songId);
-      console.log("req");
       const playload = d.contents
         .map((s, i) => ({
           id: s.video_id,
@@ -97,7 +96,7 @@ const yt = await Innertube.create({
             },
           ],
         }))
-        .slice(1, 20);
+        .slice(!all ? 1 : 0, 20);
       VibeCache.set(songId, playload);
       res.json(playload || []);
     } catch (error) {
