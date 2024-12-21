@@ -72,7 +72,7 @@ const yt = await Innertube.create({
             username: "@Vibe",
             name: "Vibe",
             imageUrl:
-              "https://lh3.googleusercontent.com/a/ACg8ocKRfJKmVUAzGWPJP-hY3sOBKOXRfG4Z3vKIQku_puUDrIoYaZw=s96-c",
+              "https://us-east-1.tixte.net/uploads/tanmay111-files.tixte.co/babyo77.jpeg",
           },
           suggestedOrder: i,
           video: !s.thumbnail[0].url.includes(
