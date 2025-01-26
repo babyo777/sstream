@@ -33,18 +33,18 @@ const yt = await Innertube.create({
       await stream(yt, songId, video, isIPhone, res);
       return;
     } catch (error) {
-      console.error(`Error streaming song: ${songId}`, error);
+      console.error(`Error streaming song: ${songId}`, error.info.response);
       if (isIPhone) {
         try {
           return await stream(yt, songId, false, false, res);
         } catch (error) {
           if (!res.headersSent) {
-            res.status(500).send(error?.message);
+            res.status(500).json(error);
           }
         }
       }
       if (!res.headersSent) {
-        res.status(500).send(error?.message);
+        res.status(500).json(error);
       }
     }
   });
@@ -72,7 +72,7 @@ const yt = await Innertube.create({
             username: "@Vibe",
             name: "Vibe",
             imageUrl:
-              "https://us-east-1.tixte.net/uploads/tanmay111-files.tixte.co/babyo77.jpeg",
+              "https://i.pinimg.com/736x/b3/c2/97/b3c297f0aad88b4ad336a45cf34071d6.jpg",
           },
           suggestedOrder: i,
           video: !s.thumbnail[0].url.includes(
@@ -134,7 +134,6 @@ async function stream(yt, songId, video, isIPhone, res) {
 
   res.writeHead(200, {
     "Content-Type": "video/mp4",
-    "Cache-Control": "no-cache",
     "Content-Disposition": 'inline; filename="stream.mp4"',
     "Accept-Ranges": "bytes",
     "Content-Length": buffer.length,
