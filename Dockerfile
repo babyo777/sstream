@@ -11,7 +11,7 @@ COPY . .
 RUN npm install
 
 # Create a non-root user and switch to it
-RUN adduser -D -u 10014 appuser
+RUN adduser -D -u 10001 appuser
 USER appuser
 
 # Expose the port the app runs on
