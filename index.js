@@ -18,7 +18,7 @@ const yt = await Innertube.create({
   device_category: "desktop",
   cache: new UniversalCache(false),
   generate_session_locally: true,
-  cookie:process.env.cookie
+  cookie: process.env.cookie,
 });
 (async () => {
   app.get("/stream/:songId", async (req, res) => {
@@ -116,7 +116,7 @@ async function stream(yt, songId, video, isIPhone, res) {
     type: video || isIPhone ? "video+audio" : "audio",
     quality: "best",
     format: "any",
-    client: "YTMUSIC",
+    client: "TV",
   });
 
   console.info(`Loaded audio stream for song with ID: ${songId}`);
