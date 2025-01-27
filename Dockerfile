@@ -15,7 +15,7 @@ RUN adduser -D -u 10014 appuser
 USER appuser
 
 # Expose the port the app runs on
-EXPOSE 3000
+EXPOSE 8000
 
 # Start the application
 CMD ["node", "index.js"]
