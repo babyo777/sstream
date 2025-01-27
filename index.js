@@ -113,7 +113,6 @@ const yt = await Innertube.create({
 async function stream(yt, songId, video, isIPhone, res) {
   const stream = await yt.download(songId, {
     type: video || isIPhone ? "video+audio" : "audio",
-    quality: "best",
     format: "any",
     client: "TV",
   });
