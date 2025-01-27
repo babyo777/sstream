@@ -15,12 +15,12 @@ app.use(
   })
 );
 const yt = await Innertube.create({
-  device_category: "desktop",
   cache: new UniversalCache(false),
   generate_session_locally: true,
   cookie:
-"VISITOR_INFO1_LIVE=NvNH48Rg2dE;VISITOR_PRIVACY_METADATA=CgJJThIEGgAgJA%3D%3D;PREF=repeat=NONE&volume=100&guide_collapsed=false;_gcl_au=1.1.2095395988.1737710414;__Secure-ROLLOUT_TOKEN=CP6r4q21_9m6rwEQkeus3YOOiwMY7I6z2f2TiwM%3D;SID=g.a000swjgpJo4eD4ls-FEe_aak9J18P_pdu3rEkOo5Um3MZntHzQSsO4GK4MtIBSBdaK5JBtr0wACgYKAf4SARESFQHGX2Mi4muNCyWm9Ak1OdBoL_-cQhoVAUF8yKr8OdZ05nJbhRHBNzAP5MdN0076;__Secure-1PSIDTS=sidts-CjIBmiPuTeoaStj4x5HDouwOHGICaNFxlWLpTNeNbXtUpY2F71KNoxmZOFIMTndaZmtiBBAA;__Secure-3PSIDTS=sidts-CjIBmiPuTeoaStj4x5HDouwOHGICaNFxlWLpTNeNbXtUpY2F71KNoxmZOFIMTndaZmtiBBAA;__Secure-1PSID=g.a000swjgpJo4eD4ls-FEe_aak9J18P_pdu3rEkOo5Um3MZntHzQS0GvXGTPJXhXXdxWqT5L6yAACgYKARcSARESFQHGX2MiCveDQiZdANTbsg1Uqrer9hoVAUF8yKoXC0ebdLNpuxWIBLUuasiv0076;__Secure-3PSID=g.a000swjgpJo4eD4ls-FEe_aak9J18P_pdu3rEkOo5Um3MZntHzQSKjBGq3TyngIHFJz6EQzV6QACgYKAS8SARESFQHGX2MiC4zNK-f8bg4jhU4PVbFGQhoVAUF8yKo0sqxneoMDSV0naZC4cMCd0076;HSID=AcNV1VNIqhZ1Mjyj7;SSID=AhWc8qnK8Jo7vTGKO;APISID=b9bn6WM6_ywh2wfi/ADcDMJIFMr0ie3nyA;SAPISID=3l9E2Jer-Fex0DaS/A9rJYm0ztQd7tEaTq;__Secure-1PAPISID=3l9E2Jer-Fex0DaS/A9rJYm0ztQd7tEaTq;__Secure-3PAPISID=3l9E2Jer-Fex0DaS/A9rJYm0ztQd7tEaTq;LOGIN_INFO=AFmmF2swRQIgSF3t8oc6mzzhHryx8zTxXBq2yyrypZE0jDousgKlvEUCIQDGVOPISVQWd_vTbfNxTjJsNz8DFyuhYicPcQz8QMyqsg:QUQ3MjNmeVBNYkJMUmFxY290NFRaZGxxZW9vREIyZXFyMGRzQVVReXdLZDZHY0p5NmdlWkktVWVnS1RFcFRqc18yRHd5VlRGdnpOTl8zMWl5YXVsVTBXMzBGSXMxanZyRjNLblY4X1pYQnVIZHhGZzZzbVNjRTVnd0dQS3FKc2NVbVRxZXVDY2VPTnVMOGI5UERjNnBCOExWYXNnMGNDYk93;YSC=cv6Sr6O8qCY;SIDCC=AKEyXzUDg-v54v76gi86ZNhvu8M3-WypgDo67OhD2SrUE-MxWxkuYrNJiXEej0qcbGa4Ig8yyA;__Secure-1PSIDCC=AKEyXzX8LjNu8s6zwGlMDVPxpZTtSNHDyydKBFlxGcLzwDZxWdroN4DEsVvtIKWdQptpvn8b;__Secure-3PSIDCC=AKEyXzUvKZcu0v7X5g_Nm4nEOgW9Y3KNycgnFzfZXQwnsi4RGq8fDYAo725p9TMNOIagOPdbzQ"
+    "VISITOR_INFO1_LIVE=NvNH48Rg2dE;VISITOR_PRIVACY_METADATA=CgJJThIEGgAgJA%3D%3D;PREF=repeat=NONE&volume=100&guide_collapsed=false;_gcl_au=1.1.2095395988.1737710414;__Secure-ROLLOUT_TOKEN=CP6r4q21_9m6rwEQkeus3YOOiwMY7I6z2f2TiwM%3D;SID=g.a000swjgpJo4eD4ls-FEe_aak9J18P_pdu3rEkOo5Um3MZntHzQSsO4GK4MtIBSBdaK5JBtr0wACgYKAf4SARESFQHGX2Mi4muNCyWm9Ak1OdBoL_-cQhoVAUF8yKr8OdZ05nJbhRHBNzAP5MdN0076;__Secure-1PSIDTS=sidts-CjIBmiPuTeoaStj4x5HDouwOHGICaNFxlWLpTNeNbXtUpY2F71KNoxmZOFIMTndaZmtiBBAA;__Secure-3PSIDTS=sidts-CjIBmiPuTeoaStj4x5HDouwOHGICaNFxlWLpTNeNbXtUpY2F71KNoxmZOFIMTndaZmtiBBAA;__Secure-1PSID=g.a000swjgpJo4eD4ls-FEe_aak9J18P_pdu3rEkOo5Um3MZntHzQS0GvXGTPJXhXXdxWqT5L6yAACgYKARcSARESFQHGX2MiCveDQiZdANTbsg1Uqrer9hoVAUF8yKoXC0ebdLNpuxWIBLUuasiv0076;__Secure-3PSID=g.a000swjgpJo4eD4ls-FEe_aak9J18P_pdu3rEkOo5Um3MZntHzQSKjBGq3TyngIHFJz6EQzV6QACgYKAS8SARESFQHGX2MiC4zNK-f8bg4jhU4PVbFGQhoVAUF8yKo0sqxneoMDSV0naZC4cMCd0076;HSID=AcNV1VNIqhZ1Mjyj7;SSID=AhWc8qnK8Jo7vTGKO;APISID=b9bn6WM6_ywh2wfi/ADcDMJIFMr0ie3nyA;SAPISID=3l9E2Jer-Fex0DaS/A9rJYm0ztQd7tEaTq;__Secure-1PAPISID=3l9E2Jer-Fex0DaS/A9rJYm0ztQd7tEaTq;__Secure-3PAPISID=3l9E2Jer-Fex0DaS/A9rJYm0ztQd7tEaTq;LOGIN_INFO=AFmmF2swRQIgSF3t8oc6mzzhHryx8zTxXBq2yyrypZE0jDousgKlvEUCIQDGVOPISVQWd_vTbfNxTjJsNz8DFyuhYicPcQz8QMyqsg:QUQ3MjNmeVBNYkJMUmFxY290NFRaZGxxZW9vREIyZXFyMGRzQVVReXdLZDZHY0p5NmdlWkktVWVnS1RFcFRqc18yRHd5VlRGdnpOTl8zMWl5YXVsVTBXMzBGSXMxanZyRjNLblY4X1pYQnVIZHhGZzZzbVNjRTVnd0dQS3FKc2NVbVRxZXVDY2VPTnVMOGI5UERjNnBCOExWYXNnMGNDYk93;YSC=cv6Sr6O8qCY;SIDCC=AKEyXzUDg-v54v76gi86ZNhvu8M3-WypgDo67OhD2SrUE-MxWxkuYrNJiXEej0qcbGa4Ig8yyA;__Secure-1PSIDCC=AKEyXzX8LjNu8s6zwGlMDVPxpZTtSNHDyydKBFlxGcLzwDZxWdroN4DEsVvtIKWdQptpvn8b;__Secure-3PSIDCC=AKEyXzUvKZcu0v7X5g_Nm4nEOgW9Y3KNycgnFzfZXQwnsi4RGq8fDYAo725p9TMNOIagOPdbzQ",
 });
+
 (async () => {
   app.get("/stream/:songId", async (req, res) => {
     let songId = req.params.songId;
@@ -33,7 +33,7 @@ const yt = await Innertube.create({
       await stream(yt, songId, video, isIPhone, res);
       return;
     } catch (error) {
-      console.error(`Error streaming song: ${songId}`, error.info.response);
+      console.error(`Error streaming song: ${songId}`, error);
       if (isIPhone) {
         try {
           return await stream(yt, songId, false, false, res);
