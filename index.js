@@ -3,6 +3,7 @@ import { Innertube, UniversalCache } from "youtubei.js";
 import { Readable } from "stream";
 import { decrypt, encrypt } from "tanmayo7lock";
 import { VibeCache } from "./cache/cache.js";
+import { OAuth2Client } from "google-auth-library";
 import dotenv from "dotenv";
 dotenv.config();
 const app = express();
@@ -14,12 +15,130 @@ app.use(
     credentials: true,
   })
 );
-const yt = await Innertube.create({
-  cache: new UniversalCache(false),
-  generate_session_locally: true,
-  cookie: process.env.cookie,
-});
+
+let innertube;
+let oAuth2Client;
+const clientId = process.env.CLIENT_ID;
+const clientSecret = process.env.CLIENT_SECRET;
+const redirectUri = process.env.REDIRECT_URI;
+
+let authorizationUrl;
+
+app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true, limit: "3mb" }));
+
+const cache = new UniversalCache(true);
+
+console.info("Cache dir:", cache.cache_dir);
+
 (async () => {
+  app.get("/", async (_req, res) => {
+    if (!innertube) {
+      console.info("Creating innertube instance.");
+      innertube = await Innertube.create({ cache });
+
+      innertube.session.on("update-credentials", async (_credentials) => {
+        console.info("Credentials updated.");
+        await innertube?.session.oauth.cacheCredentials();
+      });
+    }
+
+    if (await cache.get("youtubei_oauth_credentials"))
+      await innertube.session.signIn();
+
+    if (innertube.session.logged_in) {
+      console.info("Innertube instance is logged in.");
+
+      const userInfo = await innertube.account.getInfo();
+
+      console.log(await innertube.getBasicInfo("R8vgwMYSQi8", "YTMUSIC"));
+
+      return res.send({ userInfo });
+    }
+
+    if (!oAuth2Client) {
+      console.info("Creating OAuth2 client.");
+
+      oAuth2Client = new OAuth2Client(clientId, clientSecret, redirectUri);
+
+      authorizationUrl = oAuth2Client.generateAuthUrl({
+        access_type: "offline",
+        scope: [
+          "http://gdata.youtube.com",
+          "https://www.googleapis.com/auth/youtube",
+          "https://www.googleapis.com/auth/youtube.force-ssl",
+          "https://www.googleapis.com/auth/youtube-paid-content",
+        ],
+        include_granted_scopes: true,
+        prompt: "consent",
+      });
+
+      console.info("Redirecting to authorization URL...");
+
+      res.redirect(authorizationUrl);
+    } else if (authorizationUrl) {
+      console.info(
+        "OAuth2 client already exists. Redirecting to authorization URL..."
+      );
+      res.redirect(authorizationUrl);
+    }
+  });
+
+  app.get("/login", async (req, res) => {
+    const { code } = req.query;
+
+    if (!code) {
+      return res.send("No code provided.");
+    }
+
+    if (!oAuth2Client || !innertube) {
+      return res.send(
+        "OAuth2 client or innertube instance is not initialized."
+      );
+    }
+
+    const { tokens } = await oAuth2Client.getToken(code);
+
+    if (tokens.access_token && tokens.refresh_token && tokens.expiry_date) {
+      await innertube.session.signIn({
+        access_token: tokens.access_token,
+        refresh_token: tokens.refresh_token,
+        expiry_date: new Date(tokens.expiry_date).toISOString(),
+        client: {
+          client_id: clientId,
+          client_secret: clientSecret,
+        },
+      });
+
+      console.log({
+        access_token: tokens.access_token,
+        refresh_token: tokens.refresh_token,
+        expiry_date: new Date(tokens.expiry_date).toISOString(),
+        client: {
+          client_id: clientId,
+          client_secret: clientSecret,
+        },
+      });
+
+      await innertube.session.oauth.cacheCredentials();
+
+      console.log("Logged in successfully. Redirecting to home page...");
+
+      res.redirect("/");
+    }
+  });
+
+  app.get("/logout", async (_req, res) => {
+    if (!innertube) {
+      return res.send("Innertube instance is not initialized.");
+    }
+
+    await innertube.session.signOut();
+
+    console.log("Logged out successfully. Redirecting to home page...");
+
+    res.redirect("/");
+  });
   app.get("/stream/:songId", async (req, res) => {
     let songId = req.params.songId;
     const video = req.query.v;
@@ -28,13 +147,13 @@ const yt = await Innertube.create({
     try {
       songId = songId.length == 11 ? songId : decrypt(req.params.songId);
 
-      await stream(yt, songId, video, isIPhone, res);
+      await stream(innertube, songId, video, isIPhone, res);
       return;
     } catch (error) {
       console.error(`Error streaming song: ${songId}`, error);
       if (isIPhone) {
         try {
-          return await stream(yt, songId, false, false, res);
+          return await stream(innertube, songId, false, false, res);
         } catch (error) {
           if (!res.headersSent) {
             res.status(500).json(error);
@@ -54,7 +173,7 @@ const yt = await Innertube.create({
       if (VibeCache.has(songId + all ? "all" : "notall")) {
         return res.json(VibeCache.get(songId + all ? "all" : "notall"));
       }
-      const d = await yt.music.getUpNext(songId);
+      const d = await innertube.music.getUpNext(songId);
       const playload = d.contents
         .map((s, i) => ({
           id: s.video_id,
@@ -113,8 +232,9 @@ const yt = await Innertube.create({
 async function stream(yt, songId, video, isIPhone, res) {
   const stream = await yt.download(songId, {
     type: video || isIPhone ? "video+audio" : "audio",
+    quality: "best",
     format: "any",
-    client: "TV",
+    client: "YTMUSIC",
   });
 
   console.info(`Loaded audio stream for song with ID: ${songId}`);
