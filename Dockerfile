@@ -6,6 +6,10 @@ WORKDIR /app
 
 COPY . .
 
+# Create a non-root user and switch to it
+RUN useradd -m -u 10014 appuser
+USER 10014
+
 # Install dependencies
 RUN npm install 
 
