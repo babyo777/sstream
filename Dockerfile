@@ -4,14 +4,15 @@ FROM node:18-alpine
 # Set the working directory in the container
 WORKDIR /app
 
+# Copy the application files
 COPY . .
 
-# Create a non-root user and switch to it
-RUN useradd -m -u 10014 appuser
-USER 10014
-
 # Install dependencies
-RUN npm install 
+RUN npm install
+
+# Create a non-root user and switch to it
+RUN adduser -D -u 10014 appuser
+USER appuser
 
 # Expose the port the app runs on
 EXPOSE 3000
