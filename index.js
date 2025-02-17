@@ -53,7 +53,7 @@ console.info("Cache dir:", cache.cache_dir);
 
       console.log(await innertube.getBasicInfo("R8vgwMYSQi8", "YTMUSIC"));
 
-      return res.send({ userInfo });
+      return res.send({ live:true });
     }
 
     if (!oAuth2Client) {
