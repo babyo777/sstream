@@ -53,7 +53,7 @@ console.info("Cache dir:", cache.cache_dir);
 
       console.log(await innertube.getBasicInfo("R8vgwMYSQi8", "YTMUSIC"));
 
-      return res.send({ live:true });
+      return res.send({ live: true });
     }
 
     if (!oAuth2Client) {
@@ -234,7 +234,7 @@ async function stream(yt, songId, video, isIPhone, res) {
     type: video || isIPhone ? "video+audio" : "audio",
     quality: "best",
     format: "any",
-    client: "YTMUSIC",
+    client: "WEB",
   });
 
   console.info(`Loaded audio stream for song with ID: ${songId}`);
