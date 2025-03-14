@@ -234,7 +234,7 @@ async function stream(yt, songId, video, isIPhone, res) {
     type: video || isIPhone ? "video+audio" : "audio",
     quality: "best",
     format: "any",
-    client: "WEB_EMBEDDED",
+    client: "WEB",
   });
 
   console.info(`Loaded audio stream for song with ID: ${songId}`);
