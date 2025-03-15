@@ -144,16 +144,16 @@ console.info("Cache dir:", cache.cache_dir);
     const isIPhone = /iPhone/i.test(userAgent);
     try {
       songId = songId.length == 11 ? songId : decrypt(req.params.songId);
-      const videoInfo = await innertube.getBasicInfo(songId, "TV_EMBEDDED");
+      // const videoInfo = await innertube.getBasicInfo(songId, "TV_EMBEDDED");
 
-      const manifest = await videoInfo.toDash((url) => {
-        return url;
-      });
+      // const manifest = await videoInfo.toDash((url) => {
+      //   return url;
+      // });
 
-      const uri =
-        "data:application/dash+xml;charset=utf-8;base64," + btoa(manifest);
-      res.status(500).json({ uri });
-      return;
+      // const uri =
+      //   "data:application/dash+xml;charset=utf-8;base64," + btoa(manifest);
+      // res.status(500).json({ uri });
+      // return;
       await stream(innertube, songId, video, isIPhone, res);
       return;
     } catch (error) {
@@ -240,7 +240,8 @@ async function stream(yt, songId, video, isIPhone, res) {
   const stream = await innertube.download(songId, {
     type: video || isIPhone ? "video+audio" : "audio",
     quality: "best",
-    client: "TV",
+    format: "any",
+    client: "TV_EMBEDDED",
   });
 
   console.info(`Loaded audio stream for song with ID: ${songId}`);
@@ -256,8 +257,7 @@ async function stream(yt, songId, video, isIPhone, res) {
   const buffer = Buffer.concat(chunks);
 
   res.writeHead(200, {
-    "Cache-Control": "no-cache, no-store, must-revalidate",
-    Pragma: "no-cache",
+    "Cache-Control": "public, max-age=31536000",
     "Content-Type": "video/mp4",
     "Content-Disposition": 'inline; filename="stream.mp4"',
     "Accept-Ranges": "bytes",
