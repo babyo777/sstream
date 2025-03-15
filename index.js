@@ -249,7 +249,8 @@ async function stream(yt, songId, video, isIPhone, res) {
   const buffer = Buffer.concat(chunks);
 
   res.writeHead(200, {
-    "Cache-Control": "public, max-age=31536000",
+    "Cache-Control": "no-cache, no-store, must-revalidate",
+    Pragma: "no-cache",
     "Content-Type": "video/mp4",
     "Content-Disposition": 'inline; filename="stream.mp4"',
     "Accept-Ranges": "bytes",
