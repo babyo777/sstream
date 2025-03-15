@@ -233,7 +233,7 @@ async function stream(yt, songId, video, isIPhone, res) {
   const stream = await yt.download(songId, {
     type: video || isIPhone ? "video+audio" : "audio",
     quality: "best",
-    client: "YTMUSIC",
+    client: "TV",
   });
 
   console.info(`Loaded audio stream for song with ID: ${songId}`);
