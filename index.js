@@ -148,18 +148,27 @@ console.info("Cache dir:", cache.cache_dir);
       await stream(innertube, songId, video, isIPhone, res);
       return;
     } catch (error) {
+      const videoInfo = await innertube.getInfo(songId);
+
+      const manifest = await videoInfo.toDash((url) => {
+        return url;
+      });
+
+      const uri =
+        "data:application/dash+xml;charset=utf-8;base64," + btoa(manifest);
+
       console.error(`Error streaming song: ${songId}`, error);
       if (isIPhone) {
         try {
           return await stream(innertube, songId, false, false, res);
         } catch (error) {
           if (!res.headersSent) {
-            res.status(500).json(error);
+            res.status(500).json({ error, uri });
           }
         }
       }
       if (!res.headersSent) {
-        res.status(500).json(error);
+        res.status(500).json({ error, uri });
       }
     }
   });
