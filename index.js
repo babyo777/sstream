@@ -35,7 +35,7 @@ console.info("Cache dir:", cache.cache_dir);
   app.get("/", async (_req, res) => {
     if (!innertube) {
       console.info("Creating innertube instance.");
-      innertube = await Innertube.create({ cache });
+      innertube = await await Innertube.create({ cache });
 
       innertube.session.on("update-credentials", async (_credentials) => {
         console.info("Credentials updated.");
@@ -49,11 +49,9 @@ console.info("Cache dir:", cache.cache_dir);
     if (innertube.session.logged_in) {
       console.info("Innertube instance is logged in.");
 
-      const userInfo = await innertube.account.getInfo();
+      const data = await innertube.getBasicInfo("R8vgwMYSQi8", "YTMUSIC");
 
-      console.log(await innertube.getBasicInfo("R8vgwMYSQi8", "YTMUSIC"));
-
-      return res.send({ live: true });
+      return res.send({ live: true, data });
     }
 
     if (!oAuth2Client) {
@@ -230,7 +228,7 @@ console.info("Cache dir:", cache.cache_dir);
 })();
 
 async function stream(yt, songId, video, isIPhone, res) {
-  const stream = await yt.download(songId, {
+  const stream = await innertube.download(songId, {
     type: video || isIPhone ? "video+audio" : "audio",
     quality: "best",
     client: "TV",
