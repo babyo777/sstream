@@ -144,11 +144,7 @@ console.info("Cache dir:", cache.cache_dir);
     const isIPhone = /iPhone/i.test(userAgent);
     try {
       songId = songId.length == 11 ? songId : decrypt(req.params.songId);
-
-      await stream(innertube, songId, video, isIPhone, res);
-      return;
-    } catch (error) {
-      const videoInfo = await innertube.getInfo(songId);
+      const videoInfo = await innertube.getBasicInfo(songId, "TV_EMBEDDED");
 
       const manifest = await videoInfo.toDash((url) => {
         return url;
@@ -156,19 +152,23 @@ console.info("Cache dir:", cache.cache_dir);
 
       const uri =
         "data:application/dash+xml;charset=utf-8;base64," + btoa(manifest);
-
+      res.status(500).json({ uri });
+      return;
+      await stream(innertube, songId, video, isIPhone, res);
+      return;
+    } catch (error) {
       console.error(`Error streaming song: ${songId}`, error);
       if (isIPhone) {
         try {
           return await stream(innertube, songId, false, false, res);
         } catch (error) {
           if (!res.headersSent) {
-            res.status(500).json({ error, uri });
+            res.status(500).json({ error });
           }
         }
       }
       if (!res.headersSent) {
-        res.status(500).json({ error, uri });
+        res.status(500).json({ error });
       }
     }
   });
