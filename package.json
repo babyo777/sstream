@@ -9,7 +9,7 @@
     "google-auth-library": "^9.15.1",
     "node-cache": "^5.1.2",
     "tanmayo7lock": "^1.0.18",
-    "youtubei.js": "^13.2.0"
+    "youtubei.js": "^13.3.0"
   },
   "devDependencies": {
     "dotenv": "^16.4.5"
