@@ -186,6 +186,12 @@ console.info("Cache dir:", cache.cache_dir);
       if (VibeCache.has(songId + all ? "all" : "notall")) {
         return res.json(VibeCache.get(songId + all ? "all" : "notall"));
       }
+        if (!innertube) {
+        innertube = await Innertube.create({
+          cache,
+          cookie: process.env.COOKIE,
+        });
+      }
       const d = await innertube.music.getUpNext(songId);
       const playload = d.contents
         .map((s, i) => ({
