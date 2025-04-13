@@ -186,7 +186,7 @@ console.info("Cache dir:", cache.cache_dir);
       if (VibeCache.has(songId + all ? "all" : "notall")) {
         return res.json(VibeCache.get(songId + all ? "all" : "notall"));
       }
-        if (!innertube) {
+      if (!innertube) {
         innertube = await Innertube.create({
           cache,
           cookie: process.env.COOKIE,
@@ -253,7 +253,7 @@ async function stream(yt, songId, video, isIPhone, res) {
     type: video || isIPhone ? "video+audio" : "audio",
     quality: "best",
     format: "any",
-    client: "TV_EMBEDDED",
+    client: "YTMUSIC",
   });
 
   console.info(`Loaded audio stream for song with ID: ${songId}`);
